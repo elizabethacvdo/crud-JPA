@@ -1,0 +1,17 @@
+com\mycompany\mavenproject2\JakartaRestConfiguration.class
+com\mycompany\mavenproject2\exceptions\RollbackFailureException.class
+model\inventario.class
+com\mycompany\mavenproject2\exceptions\NonexistentEntityException.class
+com\mycompany\mavenproject2\exceptions\PreexistingEntityException.class
+com\mycompany\mavenproject2\resources\JakartaEE8Resource.class
+com\mycompany\mavenproject2\exceptions\IllegalOrphanException.class
+com\mycompany\mavenproject2\inventarioJpaController.class
+CONTROLLERSS\inventarioJpaController.class
+CONTROLLERSS\exceptions\RollbackFailureException.class
+ser\Productos.class
+CONTROLLERSS\exceptions\NonexistentEntityException.class
+CONTROLLERSS\exceptions\PreexistingEntityException.class
+CONTROLLERSS\productosJpaController.class
+CONTROLLERSS\controladoraPersistencia.class
+CONTROLLERSS\exceptions\IllegalOrphanException.class
+model\productos.class
