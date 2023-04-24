@@ -7,11 +7,14 @@ package ser;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.List;
+import javax.naming.NamingException;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.transaction.SystemException;
+import model.controladorProductos;
 import model.productos;
 
 /**
@@ -21,135 +24,56 @@ import model.productos;
 @WebServlet(name = "Productos", urlPatterns = {"/Productos"})
 public class Productos extends HttpServlet {
 
-    /**
-     * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
-     * methods.
-     *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     *//*
-   @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        String action = request.getParameter("action");
+    public controladorProductos cProductos;
+    public productos p= new productos();
 
-        switch (action)
-        {
-            case "findOne":
-                findOne(request, response);
-                break;
-            case "findAll":
-                findAll(request, response);
-            case "delete":
-                delete(request, response);
-                findAll(request, response);
-                break;
-
-        }
-
+    public Productos() throws NamingException, SystemException {
+        this.cProductos = new controladorProductos();
     }
+    
+ protected void doGet(HttpServletRequest request, HttpServletResponse response)
+throws ServletException, IOException {
 
-    @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        String action = request.getParameter("action");
+ String accion=request.getParameter("accion");
+ int id = 0;
+ if(request.getParameter("id")!=null){
+ id=Integer.parseInt(request.getParameter("id"));
+ }
 
-        switch (action)
-        {
-            case "save":
-                save(request, response);
-                findAll(request, response);
-                break;
-            case "update":
-                update(request, response);
-                findAll(request, response);
-                break;
-            default :
-                findAll(request, response);
-                break;
+ List<productos> consultaGeneral=this.cProductos.traerListaP(); 
+ switch(accion){
+ case "con":
+ request.setAttribute("productos",consultaGeneral);
+ request.getRequestDispatcher("vistas/view_productos.jsp").forward(
+request, response);
+ break;
 
-        }
-    }
-/*
-    public void save(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
-        productos productosnew = new productos();
-        String nombre = request.getParameter("nombre");
-       
-        productos.save();
+ case "mod":
+ productos producto=this.calumno.traerAlumno(id );
+ request.setAttribute("alumno",producto);
+ request.getRequestDispatcher("vistas/upd_alumno.jsp").forward(request, response);
+ break;
 
 
-    }
+ case "del":
+ this.calumno.eliminarAlumno(id);
+ consultaGeneral=this.calumno.traerListaAlumnos();
+ request.setAttribute("alumnos",consultaGeneral);
+ request.getRequestDispatcher("vistas/view_alumno.jsp").forward(
+request, response);
+ break;
 
-    public void findAll(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
-        CityService cityService = new CityService();
-        List<Ciudad> ciudades = cityService.findAll();
+ case "add":
+ List<Alumno> 
+consultaUltimos=this.calumno.consultaUltimosAlumnos(5, 1);
+consultaUltimos=this.calumno.consultaUltimosAlumnos(5, 1);
+ request.setAttribute("alumnos",consultaUltimos);
+ request.getRequestDispatcher("vistas/add_alumno.jsp").forward(r
+equest, response);
+ break;
+ }
 
-        request.setAttribute("cities", ciudades);
-        request.getRequestDispatcher("views/city/home.jsp").forward(request, response);
-    }
+ }
 
-    public void findOne(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
-        CityService cityService = new CityService();
-        String id = request.getParameter("id");
-        Ciudad ciudad = cityService.findById(Long.parseLong(id));
-
-        request.setAttribute("city", ciudad);
-        request.getRequestDispatcher("views/city/update.jsp").forward(request, response);
-    }
-
-    public void update(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
-        CityService cityService = new CityService();
-        String ciudadId = request.getParameter("id");
-        String nombre = request.getParameter("nombre");
-        Ciudad ciudad = new Ciudad( nombre);
-        ciudad.setId(Integer.parseInt(ciudadId));
-        cityService.update(ciudad);
-
-    }
-
-    public void delete(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
-        CityService cityService = new CityService();
-        String id = request.getParameter("id");
-        cityService.delete(Long.parseLong(id));
-
-    }
-    // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
-    /**
-     * Handles the HTTP <code>GET</code> method.
-     *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     *//*
-    @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-        processRequest(request, response);
-    }
-
-    /**
-     * Handles the HTTP <code>POST</code> method.
-     *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     *//*
-    @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-        processRequest(request, response);
-    }
-
-    /**
-     * Returns a short description of the servlet.
-     *
-     * @return a String containing servlet description
-     */
-    @Override
-    public String getServletInfo() {
-        return "Short description";
-    }// </editor-fold>
-
+  
 }

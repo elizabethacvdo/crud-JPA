@@ -87,7 +87,10 @@ return this.inventarioJpa.findinventario(id);
  }
  }
     
-    
+   public List<productos> consultaUltimos( int i, int j) {
+ int total=this.productoJpa.getproductosCount()-4;
+ return this.productoJpa.findproductosEntities(i,total);
+ } 
     
     
 }
